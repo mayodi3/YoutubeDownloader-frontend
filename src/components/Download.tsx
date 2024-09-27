@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://youtubedownloader-backend.onrender.com");
 
 interface VideoData {
   url: string;
@@ -60,7 +60,7 @@ function Download() {
     const fetchDefaultDownloadPath = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/get_default_download_path"
+          "https://youtubedownloader-backend.onrender.com/get_default_download_path"
         );
         setDefaultDownloadPath(response.data.path);
       } catch (error) {
@@ -83,7 +83,9 @@ function Download() {
     setLoading(true); // Start loading
     try {
       const response = await axios.get(
-        `http://localhost:5000/search?query=${encodeURIComponent(query)}`
+        `https://youtubedownloader-backend.onrender.com/search?query=${encodeURIComponent(
+          query
+        )}`
       );
       setVideos(response.data);
       setLoading(false);
@@ -99,10 +101,13 @@ function Download() {
 
       const defaultPath = defaultDownloadPath;
 
-      await axios.post("http://localhost:5000/download/mp4", {
-        url,
-        path: defaultPath,
-      });
+      await axios.post(
+        "https://youtubedownloader-backend.onrender.com/download/mp4",
+        {
+          url,
+          path: defaultPath,
+        }
+      );
       setIsDownloading((prev) => ({ ...prev, [url]: false }));
       toast.success("Download completed");
     } catch (error) {
@@ -117,10 +122,13 @@ function Download() {
       setIsDownloading((prev) => ({ ...prev, [url]: true }));
       const defaultPath = defaultDownloadPath;
 
-      await axios.post("http://localhost:5000/download/mp3", {
-        url,
-        path: defaultPath,
-      });
+      await axios.post(
+        "https://youtubedownloader-backend.onrender.com/download/mp3",
+        {
+          url,
+          path: defaultPath,
+        }
+      );
       setIsDownloading((prev) => ({ ...prev, [url]: false }));
       toast.success("Download completed");
     } catch (error) {
